@@ -33,7 +33,7 @@ This site is designed for Indian professionals who want to plan their financial 
 ## 📖 How to Use
 
 1. **Open the Website:**  
-   [https://yourusername.github.io/retirement-planning-hub/](https://yourusername.github.io/retirement-planning-hub/)
+   [https://yourusername.github.io/retirement-planning-hub/](https://babubl.github.io/retirement-planning-hub/)
 
 2. **Choose a Calculator:**  
    Click the “NPS Calculator” or “EPF Calculator” tab.

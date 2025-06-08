@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Retirement Planning Hub</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Google Fonts & Icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      font-family: 'Montserrat', Arial, sans-serif;
+      overflow-x: hidden;
+      background: linear-gradient(135deg, #a18cd1 0%, #fbc2eb 100%);
+    }
+    .bg-animated {
+      position: fixed;
+      top: 0; left: 0; width: 100vw; height: 100vh;
+      z-index: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+    .bubble {
+      position: absolute;
+      border-radius: 50%;
+      opacity: 0.18;
+      animation: float 12s infinite linear;
+      mix-blend-mode: lighten;
+    }
+    .bubble1 { width: 180px; height: 180px; left: 8vw; top: 70vh; background: #fff; animation-delay: 0s;}
+    .bubble2 { width: 120px; height: 120px; left: 65vw; top: 80vh; background: #ffd6e0; animation-delay: 2s;}
+    .bubble3 { width: 100px; height: 100px; left: 80vw; top: 60vh; background: #b3c6ff; animation-delay: 4s;}
+    .bubble4 { width: 90px; height: 90px; left: 20vw; top: 90vh; background: #ffe0b2; animation-delay: 6s;}
+    .bubble5 { width: 140px; height: 140px; left: 50vw; top: 75vh; background: #c8e6c9; animation-delay: 8s;}
+    @keyframes float {
+      0% { transform: translateY(0) scale(1);}
+      100% { transform: translateY(-80vh) scale(1.1);}
+    }
+    .main-container {
+      position: relative;
+      z-index: 2;
+      max-width: 540px;
+      margin: 0 auto;
+      top: 7vh;
+      background: rgba(255,255,255,0.22);
+      border-radius: 22px;
+      box-shadow: 0 8px 32px 0 rgba(31,38,135,0.18);
+      padding: 42px 32px 36px 32px;
+      backdrop-filter: blur(10px);
+      border: 1.5px solid rgba(255,255,255,0.26);
+      text-align: center;
+      animation: fadeIn 1.2s cubic-bezier(.4,0,.2,1);
+    }
+    @keyframes fadeIn {
+      0% { opacity: 0; transform: translateY(40px);}
+      100% { opacity: 1; transform: translateY(0);}
+    }
+    h1 {
+      color: #3d155f;
+      font-size: 2em;
+      letter-spacing: 1.5px;
+      margin-bottom: 18px;
+      font-weight: 700;
+      text-shadow: 0 2px 12px #fff6;
+    }
+    .subtitle {
+      color: #7b4397;
+      font-size: 1.08em;
+      margin-bottom: 28px;
+      font-weight: 400;
+      text-shadow: 0 1px 10px #fff7;
+    }
+    .tab-row {
+      display: flex;
+      justify-content: center;
+      gap: 14px;
+      margin-bottom: 28px;
+      margin-top: 16px;
+    }
+    .tab-btn {
+      flex: 1 1 120px;
+      min-width: 120px;
+      background: linear-gradient(135deg, #fbc2eb 0%, #a6c1ee 100%);
+      border: none;
+      border-radius: 14px 14px 0 0;
+      box-shadow: 0 2px 12px #b39ddb33;
+      padding: 18px 0 12px 0;
+      color: #3d155f;
+      font-size: 1.12em;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.18s, color 0.18s;
+      outline: none;
+      border-bottom: 3px solid transparent;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 7px;
+    }
+    .tab-btn.active {
+      background: linear-gradient(135deg, #a6c1ee 0%, #fbc2eb 100%);
+      color: #1976d2;
+      border-bottom: 3px solid #1976d2;
+    }
+    .tab-btn .icon {
+      font-size: 1.7em;
+      margin-bottom: 2px;
+      color: #7b4397;
+      transition: color 0.2s;
+    }
+    .tab-btn.active .icon {
+      color: #1976d2;
+    }
+    .tab-content {
+      background: rgba(255,255,255,0.85);
+      border-radius: 0 0 18px 18px;
+      box-shadow: 0 2px 12px #b39ddb22;
+      padding: 30px 18px 18px 18px;
+      margin-bottom: 12px;
+      animation: fadeIn 0.7s cubic-bezier(.4,0,.2,1);
+      min-height: 350px;
+    }
+    .footer {
+      margin-top: 38px;
+      color: #bdbdbd;
+      font-size: 0.98em;
+      letter-spacing: 0.5px;
+      text-shadow: 0 1px 6px #fff8;
+    }
+    @media (max-width: 700px) {
+      .main-container { padding: 12px 2vw 18px 2vw; top: 2vh; }
+      h1 { font-size: 1.15em; }
+      .tab-row { flex-direction: column; gap: 7px; }
+      .tab-btn { min-width: 0; }
+      .tab-content { padding: 14px 2vw 8px 2vw; }
+    }
+    /* Calculator styles (shared) */
+    .form-group {
+      margin-bottom: 16px;
+      text-align: left;
+    }
+    label {
+      display: block;
+      margin-bottom: 4px;
+      color: #333;
+      font-weight: 500;
+    }
+    input[type="number"]::-webkit-inner-spin-button,
+    input[type="number"]::-webkit-outer-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+    input[type="number"] {
+      width: 100%;
+      padding: 7px 10px;
+      border: 1px solid #b0bec5;
+      border-radius: 4px;
+      font-size: 1rem;
+      background: #f6f8fa;
+      transition: border-color 0.2s;
+      appearance: textfield;
+      -moz-appearance: textfield;
+    }
+    input[type="number"]:focus {
+      border-color: #3949ab;
+      outline: none;
+    }
+    .desc {
+      font-size: 0.92em;
+      color: #607d8b;
+      margin-bottom: 8px;
+      margin-top: 2px;
+    }
+    button[type="submit"] {
+      width: 100%;
+      background: linear-gradient(90deg, #3949ab 0%, #1976d2 100%);
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      padding: 13px 0;
+      font-size: 1.1rem;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 10px;
+      transition: background 0.2s;
+    }
+    button[type="submit"]:hover {
+      background: linear-gradient(90deg, #1976d2 0%, #3949ab 100%);
+    }
+    .output {
+      margin-top: 28px;
+      background: #f1f8e9;
+      border-radius: 10px;
+      padding: 18px;
+      box-shadow: 0 2px 8px #dcedc8;
+      text-align: left;
+    }
+    .output h2 {
+      margin-top: 0;
+      color: #2e7d32;
+      font-size: 1.15em;
+    }
+    .output-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+      font-size: 1.04em;
+    }
+    .output-table th, .output-table td {
+      padding: 7px 7px;
+      border-bottom: 1px solid #e0e0e0;
+    }
+    .output-table th {
+      background: #e3f2fd;
+      text-align: left;
+      color: #1976d2;
+      font-weight: bold;
+    }
+    .output-table td.value {
+      text-align: right;
+      color: #1976d2;
+      font-weight: bold;
+    }
+    .education-section {
+      margin-top: 18px;
+      background: #f9fbe7;
+      border-radius: 8px;
+      padding: 10px 14px;
+      color: #616161;
+      font-size: 0.98em;
+      border: 1px solid #e6ee9c;
+      text-align: left;
+    }
+    .education-section summary {
+      font-weight: bold;
+      color: #827717;
+      cursor: pointer;
+      font-size: 1.07em;
+      margin-bottom: 8px;
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-animated">
+    <div class="bubble bubble1"></div>
+    <div class="bubble bubble2"></div>
+    <div class="bubble bubble3"></div>
+    <div class="bubble bubble4"></div>
+    <div class="bubble bubble5"></div>
+  </div>
+  <div class="main-container">
+    <h1><i class="fa-solid fa-seedling"></i> Retirement Planning Hub</h1>
+    <div class="subtitle">
+      Plan your financial future with confidence.<br>
+      Choose your calculator below.
+    </div>
+    <div class="tab-row">
+      <button class="tab-btn active" id="tabNPS" onclick="switchTab('nps')">
+        <span class="icon"><i class="fa-solid fa-chart-line"></i></span>
+        NPS Calculator
+      </button>
+      <button class="tab-btn" id="tabEPF" onclick="switchTab('epf')">
+        <span class="icon"><i class="fa-solid fa-piggy-bank"></i></span>
+        EPF Calculator
+      </button>
+    </div>
+    <div id="npsTab" class="tab-content">
+      <!-- NPS Calculator -->
+      <form id="npsForm" autocomplete="off">
+        <div class="form-group">
+          <label for="currentAgeNPS">Current Age</label>
+          <input type="number" id="currentAgeNPS" value="40" min="18" max="80" required>
+          <div class="desc">Your current age in years</div>
+        </div>
+        <div class="form-group">
+          <label for="retirementAgeNPS">Retirement Age</label>
+          <input type="number" id="retirementAgeNPS" value="60" min="18" max="80" required>
+          <div class="desc">Age when you plan to retire</div>
+        </div>
+        <div class="form-group">
+          <label for="currentNPSBalance">Current NPS Balance (₹)</label>
+          <input type="number" id="currentNPSBalance" value="900000" min="0" step="any" required>
+          <div class="desc">Total amount in your NPS account now</div>
+        </div>
+        <div class="form-group">
+          <label for="monthlyContributionNPS">Monthly NPS Contribution (₹)</label>
+          <input type="number" id="monthlyContributionNPS" value="22000" min="0" step="any" required>
+          <div class="desc">Your monthly NPS contribution</div>
+        </div>
+        <div class="form-group">
+          <label for="monthlyExpenseNPS">Current Monthly Expense (₹)</label>
+          <input type="number" id="monthlyExpenseNPS" value="60000" min="0" step="any" required>
+          <div class="desc">Your current monthly living expenses</div>
+        </div>
+        <div class="form-group">
+          <label for="inflationRateNPS">Inflation Rate (%)</label>
+          <input type="number" id="inflationRateNPS" value="4" min="0" max="100" step="any" required>
+          <div class="desc">Latest annual inflation rate in India is 3.16% (Apr 2025). 5-year average is ~4%.</div>
+        </div>
+        <div class="form-group">
+          <label for="npsTarget">NPS Target % of Expense</label>
+          <input type="number" id="npsTarget" value="30" min="0" max="100" step="any" required>
+          <div class="desc">Percent of retirement expense you want NPS to cover</div>
+        </div>
+        <div class="form-group">
+          <label for="equityReturnNPS">Equity Return (%)</label>
+          <input type="number" id="equityReturnNPS" value="12" min="0" max="100" step="any" required>
+          <div class="desc">Scheme E (Equity): 5-year average annual return is 11–14%.</div>
+        </div>
+        <div class="form-group">
+          <label for="corporateBondReturnNPS">Corporate Bond Return (%)</label>
+          <input type="number" id="corporateBondReturnNPS" value="8" min="0" max="100" step="any" required>
+          <div class="desc">Scheme C (Corporate Bonds): 5-year average annual return is 7–9%.</div>
+        </div>
+        <div class="form-group">
+          <label for="governmentBondReturnNPS">Government Bond Return (%)</label>
+          <input type="number" id="governmentBondReturnNPS" value="7" min="0" max="100" step="any" required>
+          <div class="desc">Scheme G (Government Securities): 5-year average annual return is 6–7.5%.</div>
+        </div>
+        <div class="form-group">
+          <label for="equityAllocationNPS">Equity Allocation (%)</label>
+          <input type="number" id="equityAllocationNPS" value="75" min="0" max="100" step="any" required>
+          <div class="desc">Percent of NPS in equity (Scheme E)</div>
+        </div>
+        <div class="form-group">
+          <label for="corporateAllocationNPS">Corporate Allocation (%)</label>
+          <input type="number" id="corporateAllocationNPS" value="20" min="0" max="100" step="any" required>
+          <div class="desc">Percent of NPS in corporate bonds (Scheme C)</div>
+        </div>
+        <div class="form-group">
+          <label for="governmentAllocationNPS">Government Allocation (%)</label>
+          <input type="number" id="governmentAllocationNPS" value="5" min="0" max="100" step="any" required>
+          <div class="desc">Percent of NPS in government securities (Scheme G)</div>
+        </div>
+        <div class="form-group">
+          <label for="swpReturnNPS">SWP Return (%)</label>
+          <input type="number" id="swpReturnNPS" value="9" min="0" max="100" step="any" required>
+          <div class="desc">Average 5-year return for SWP (hybrid/balanced funds) is 8–10%.</div>
+        </div>
+        <div class="form-group">
+          <label for="swpWithdrawalRateNPS">SWP Withdrawal Rate (%)</label>
+          <input type="number" id="swpWithdrawalRateNPS" value="4" min="0" max="100" step="any" required>
+          <div class="desc">Annual withdrawal rate from SWP corpus</div>
+        </div>
+        <div class="form-group">
+          <label for="annuityReturnNPS">Annuity Return (%)</label>
+          <input type="number" id="annuityReturnNPS" value="6" min="0" max="100" step="any" required>
+          <div class="desc">Current annuity rates in India are 5–6.5%.</div>
+        </div>
+        <button type="submit">Calculate</button>
+      </form>
+      <div class="output" id="outputNPS"></div>
+      <div class="education-section">
+        <details>
+          <summary>ℹ️ About NPS, SWP, and Annuity (Click to expand)</summary>
+          <ul>
+            <li><b>NPS Withdrawal:</b> At retirement, you can withdraw up to 60% of your corpus as a lump sum (tax-free), and at least 40% must be used to buy an annuity (regular pension).</li>
+            <li><b>Scheme E/C/G:</b> NPS lets you choose your asset allocation between Equity (E), Corporate Bonds (C), and Government Securities (G).</li>
+            <li><b>SWP:</b> Systematic Withdrawal Plan lets you withdraw a fixed amount from your lump sum corpus monthly.</li>
+            <li><b>Annuity:</b> The annuity provider pays a fixed monthly pension for life. Rates depend on age, provider, and option chosen (single/joint, with/without return of purchase price).</li>
+            <li><b>Tax Benefits:</b> NPS contributions are eligible for tax deduction under Sec 80C (up to ₹1.5 lakh) and Sec 80CCD(1B) (additional ₹50,000).</li>
+            <li><b>Risks:</b> Returns are market-linked and not guaranteed. Inflation and longevity risk should be considered.</li>
+          </ul>
+        </details>
+      </div>
+    </div>
+    <div id="epfTab" class="tab-content" style="display:none;">
+      <!-- EPF Calculator -->
+      <form id="epfForm" autocomplete="off">
+        <div class="form-group">
+          <label for="currentAgeEPF">Current Age</label>
+          <input type="number" id="currentAgeEPF" value="30" min="18" max="80" required>
+          <div class="desc">Your present age in years.</div>
+        </div>
+        <div class="form-group">
+          <label for="retirementAgeEPF">Retirement Age</label>
+          <input type="number" id="retirementAgeEPF" value="60" min="18" max="80" required>
+          <div class="desc">Age at which you plan to retire.</div>
+        </div>
+        <div class="form-group">
+          <label for="currentEPFBalance">Current EPF Balance (₹)</label>
+          <input type="number" id="currentEPFBalance" value="200000" min="0" step="any" required>
+          <div class="desc">Total amount in your EPF account as of today (including all previous jobs, if transferred).</div>
+        </div>
+        <div class="form-group">
+          <label for="employeeContribution">Employee’s Monthly Contribution (₹)</label>
+          <input type="number" id="employeeContribution" value="3600" min="0" step="any" required>
+          <div class="desc">Your current monthly EPF contribution (as per your latest payslip). Enter zero if on a break.</div>
+        </div>
+        <div class="form-group">
+          <label for="employerContribution">Employer’s Monthly Contribution (₹)</label>
+          <input type="number" id="employerContribution" value="1100" min="0" step="any" required>
+          <div class="desc">Your employer’s current monthly EPF contribution (as per your latest payslip). Enter zero if on a break.</div>
+        </div>
+        <div class="form-group">
+          <label for="salaryGrowth">Expected Annual Salary Growth Rate (%)</label>
+          <input type="number" id="salaryGrowth" value="8" min="0" max="100" step="any" required>
+          <div class="desc">Average percentage increase in your basic salary + DA per year (e.g., 8%).</div>
+        </div>
+        <div class="form-group">
+          <label for="epfInterest">EPF Interest Rate (%)</label>
+          <input type="number" id="epfInterest" value="8.25" min="0" max="100" step="any" required>
+          <div class="desc">
+            The EPF interest rate for FY 2024-25 is 8.25%. The 5-year average is about 8.25%.<br>
+            (Set by EPFO and reviewed annually.)
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="yearsOfService">Years of Service at Retirement</label>
+          <input type="number" id="yearsOfService" value="30" min="1" max="60" required>
+          <div class="desc">Total years you expect to contribute to EPF (sum of all jobs, excluding breaks).</div>
+        </div>
+        <button type="submit">Calculate</button>
+      </form>
+      <div class="output" id="outputEPF"></div>
+      <div class="education-section">
+        <details>
+          <summary>ℹ️ About EPF (Click to expand)</summary>
+          <ul>
+            <li><b>EPF Contributions:</b> Employee usually contributes 12% of basic salary + DA; employer contributes 12% (split between EPF and EPS).</li>
+            <li><b>Interest:</b> EPF interest is compounded yearly, credited by EPFO. The rate is reviewed annually (e.g., 8.25% for FY 2024-25).</li>
+            <li><b>Job Changes:</b> Always transfer your EPF balance to your new employer using your UAN.</li>
+            <li><b>Career Breaks:</b> During breaks, contributions pause but interest continues to accrue on your balance.</li>
+            <li><b>Tax Benefits:</b> EPF is EEE (Exempt-Exempt-Exempt): contributions, interest, and maturity are tax-free (with conditions).</li>
+          </ul>
+        </details>
+      </div>
+    </div>
+    <div class="footer">
+      &copy; 2025 <b>Your Name</b> | For educational use.<br>
+      <span style="font-size:0.93em;">Built with <i class="fa-solid fa-heart" style="color:#e57373;"></i> and smart planning.</span>
+    </div>
+  </div>
+  <script>
+    // Tab switching logic
+    function switchTab(tab) {
+      document.getElementById('tabNPS').classList.remove('active');
+      document.getElementById('tabEPF').classList.remove('active');
+      document.getElementById('npsTab').style.display = 'none';
+      document.getElementById('epfTab').style.display = 'none';
+      if(tab === 'nps') {
+        document.getElementById('tabNPS').classList.add('active');
+        document.getElementById('npsTab').style.display = '';
+      } else {
+        document.getElementById('tabEPF').classList.add('active');
+        document.getElementById('epfTab').style.display = '';
+      }
+    }
+
+    // Currency formatter
+    function toCurrency(n) {
+      return "₹ " + n.toLocaleString('en-IN', {maximumFractionDigits: 0});
+    }
+
+    // NPS Calculator Logic
+    document.getElementById('npsForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      // Inputs
+      const currentAge = Number(document.getElementById('currentAgeNPS').value);
+      const retirementAge = Number(document.getElementById('retirementAgeNPS').value);
+      const currentNPSBalance = Number(document.getElementById('currentNPSBalance').value);
+      const monthlyContribution = Number(document.getElementById('monthlyContributionNPS').value);
+      const monthlyExpense = Number(document.getElementById('monthlyExpenseNPS').value);
+      const inflationRate = Number(document.getElementById('inflationRateNPS').value) / 100;
+      const npsTarget = Number(document.getElementById('npsTarget').value) / 100;
+      const equityReturn = Number(document.getElementById('equityReturnNPS').value) / 100;
+      const corporateBondReturn = Number(document.getElementById('corporateBondReturnNPS').value) / 100;
+      const governmentBondReturn = Number(document.getElementById('governmentBondReturnNPS').value) / 100;
+      const equityAllocation = Number(document.getElementById('equityAllocationNPS').value) / 100;
+      const corporateAllocation = Number(document.getElementById('corporateAllocationNPS').value) / 100;
+      const governmentAllocation = Number(document.getElementById('governmentAllocationNPS').value) / 100;
+      const swpReturn = Number(document.getElementById('swpReturnNPS').value) / 100;
+      const swpWithdrawalRate = Number(document.getElementById('swpWithdrawalRateNPS').value) / 100;
+      const annuityReturn = Number(document.getElementById('annuityReturnNPS').value) / 100;
+
+      // Calculations
+      const yearsToRetirement = retirementAge - currentAge;
+      const monthsToRetirement = yearsToRetirement * 12;
+
+      // Blended Return
+      const blendedReturn =
+        equityReturn * equityAllocation +
+        corporateBondReturn * corporateAllocation +
+        governmentBondReturn * governmentAllocation;
+
+      // Monthly Return
+      const monthlyReturn = Math.pow(1 + blendedReturn, 1/12) - 1;
+
+      // FV of current corpus
+      const fvCurrentCorpus = currentNPSBalance * Math.pow(1 + monthlyReturn, monthsToRetirement);
+
+      // FV of monthly contributions (ordinary annuity, no escalation)
+      const fvContributions = monthlyContribution * (Math.pow(1 + monthlyReturn, monthsToRetirement) - 1) / monthlyReturn;
+
+      // Total NPS corpus
+      const totalNPSCorpus = fvCurrentCorpus + fvContributions;
+
+      // SWP/Annuity corpus
+      const swpCorpus = totalNPSCorpus * 0.6;
+      const annuityCorpus = totalNPSCorpus * 0.4;
+
+      // Monthly SWP income
+      const monthlySWPIncome = swpCorpus * (swpWithdrawalRate/12);
+
+      // Monthly Annuity income
+      const monthlyAnnuityIncome = annuityCorpus * (annuityReturn/12);
+
+      // Total Monthly NPS Income
+      const totalMonthlyNPSIncome = monthlySWPIncome + monthlyAnnuityIncome;
+
+      // Inflation Adjusted Expense
+      const inflationAdjustedExpense = monthlyExpense * Math.pow(1 + inflationRate, yearsToRetirement);
+
+      // Target Monthly Income from NPS
+      const targetMonthlyNPSIncome = npsTarget * inflationAdjustedExpense;
+
+      // Is Contribution Enough?
+      const isEnough = totalMonthlyNPSIncome >= targetMonthlyNPSIncome ? "Yes" : "No";
+
+      // Calculate monthly contribution gap
+      let neededMonthlyContribution = 0;
+      if (totalMonthlyNPSIncome < targetMonthlyNPSIncome) {
+        // Estimate extra monthly contribution needed
+        const corpusNeeded = targetMonthlyNPSIncome / ((0.6 * swpWithdrawalRate / 12) + (0.4 * annuityReturn / 12));
+        const extraCorpusNeeded = corpusNeeded - totalNPSCorpus;
+        if (extraCorpusNeeded > 0) {
+          neededMonthlyContribution = extraCorpusNeeded * monthlyReturn / (Math.pow(1 + monthlyReturn, monthsToRetirement) - 1);
+        }
+      } else {
+        // Surplus income per month
+        neededMonthlyContribution = totalMonthlyNPSIncome - targetMonthlyNPSIncome;
+      }
+
+      document.getElementById('outputNPS').innerHTML = `
+        <h2>Will NPS Meet My Retirement Income Needs?</h2>
+        <table class="output-table">
+          <tr>
+            <th>Metric</th>
+            <th>Value</th>
+          </tr>
+          <tr>
+            <td>Years to Retirement</td>
+            <td class="value">${yearsToRetirement}</td>
+          </tr>
+          <tr>
+            <td>Blended Return (annual)</td>
+            <td class="value">${(blendedReturn*100).toFixed(2)}%</td>
+          </tr>
+          <tr>
+            <td>Projected NPS Corpus at Retirement</td>
+            <td class="value">${toCurrency(Math.round(totalNPSCorpus))}</td>
+          </tr>
+          <tr>
+            <td>Projected Monthly NPS Income</td>
+            <td class="value">${toCurrency(Math.round(totalMonthlyNPSIncome))}</td>
+          </tr>
+          <tr>
+            <td>Inflation-Adjusted Retirement Expense</td>
+            <td class="value">${toCurrency(Math.round(inflationAdjustedExpense))}</td>
+          </tr>
+          <tr>
+            <td>Target NPS Income (${(npsTarget*100).toFixed(0)}% of expense)</td>
+            <td class="value">${toCurrency(Math.round(targetMonthlyNPSIncome))}</td>
+          </tr>
+          <tr>
+            <td>Is Contribution Enough?</td>
+            <td class="value" style="font-weight:bold; color:${isEnough === "Yes" ? '#388e3c' : '#e53935'}">${isEnough}</td>
+          </tr>
+        </table>
+        ${
+          isEnough === "No"
+          ? `<div style="margin-top:12px;color:#e65100;font-weight:bold;">
+                You need to increase your monthly contribution by <b>${toCurrency(Math.round(neededMonthlyContribution))}</b> to meet your target.
+             </div>`
+          : `<div style="margin-top:12px;color:#388e3c;font-weight:bold;">
+                You have a surplus of <b>${toCurrency(Math.round(neededMonthlyContribution))}</b> per month above your target!
+             </div>`
+        }
+        <div style="margin-top:8px;color:#888;font-size:0.98em;">
+          <b>Note:</b> These are estimates based on latest 5-year averages (2020–2025). Please consult a financial advisor before making investment decisions.
+        </div>
+      `;
+    });
+
+    // EPF Calculator Logic
+    document.getElementById('epfForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      // Inputs
+      const currentAge = Number(document.getElementById('currentAgeEPF').value);
+      const retirementAge = Number(document.getElementById('retirementAgeEPF').value);
+      const currentEPFBalance = Number(document.getElementById('currentEPFBalance').value);
+      let employeeContribution = Number(document.getElementById('employeeContribution').value);
+      let employerContribution = Number(document.getElementById('employerContribution').value);
+      const salaryGrowth = Number(document.getElementById('salaryGrowth').value) / 100;
+      const epfInterest = Number(document.getElementById('epfInterest').value) / 100;
+      const yearsOfService = Number(document.getElementById('yearsOfService').value);
+
+      // Calculations
+      let epfBalance = currentEPFBalance;
+      let totalEmployee = 0, totalEmployer = 0, totalInterest = 0;
+
+      for (let year = 1; year <= yearsOfService; year++) {
+        let yearlyEmployee = employeeContribution * 12;
+        let yearlyEmployer = employerContribution * 12;
+        let yearlyTotal = yearlyEmployee + yearlyEmployer;
+        let yearlyInterest = (epfBalance + yearlyTotal/2) * epfInterest; // Approximate average balance
+        epfBalance += yearlyEmployee + yearlyEmployer + yearlyInterest;
+        totalEmployee += yearlyEmployee;
+        totalEmployer += yearlyEmployer;
+        totalInterest += yearlyInterest;
+        // Increase contributions for next year
+        employeeContribution *= (1 + salaryGrowth);
+        employerContribution *= (1 + salaryGrowth);
+      }
+
+      document.getElementById('outputEPF').innerHTML = `
+        <h2>EPF Maturity Estimate at Retirement</h2>
+        <table class="output-table">
+          <tr>
+            <th>Metric</th>
+            <th>Value</th>
+          </tr>
+          <tr>
+            <td>EPF Corpus at Retirement</td>
+            <td class="value">${toCurrency(Math.round(epfBalance))}</td>
+          </tr>
+          <tr>
+            <td>Total Employee Contribution</td>
+            <td class="value">${toCurrency(Math.round(totalEmployee))}</td>
+          </tr>
+          <tr>
+            <td>Total Employer Contribution</td>
+            <td class="value">${toCurrency(Math.round(totalEmployer))}</td>
+          </tr>
+          <tr>
+            <td>Total Interest Earned</td>
+            <td class="value">${toCurrency(Math.round(totalInterest))}</td>
+          </tr>
+        </table>
+        <div style="margin-top:8px;color:#888;font-size:0.98em;">
+          <b>Note:</b> This estimate assumes annual compounding and annual salary growth. Actual EPF interest is credited yearly by EPFO and may vary.
+        </div>
+      `;
+    });
+  </script>
+</body>
+</html>

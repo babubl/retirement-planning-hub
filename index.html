@@ -1,763 +1,495 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>360° Financial Snapshot | Plan Your Future</title>
-  <link href="https://fonts.googleapis.com/css?family=Montserrat:700,400&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet" />
   <style>
     :root {
       --primary: #3d5a80;
       --accent: #ee6c4d;
       --bg: #f8fafc;
       --block: #e0e7ff;
-      --white: #fff;
-      --shadow: 0 8px 32px rgba(60, 72, 107, 0.10);
+      --white: #ffffff;
+      --shadow: 0 8px 32px rgba(60, 72, 107, 0.12);
       --radius: 18px;
     }
+
+    * {
+      box-sizing: border-box;
+    }
+
     body {
-      font-family: 'Montserrat', sans-serif;
-      background: linear-gradient(120deg, var(--bg) 0%, var(--block) 100%);
       margin: 0;
-      padding: 0;
+      font-family: "Montserrat", sans-serif;
+      background: linear-gradient(135deg, var(--bg) 0%, var(--block) 90%);
       color: #22223b;
       min-height: 100vh;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      padding: 40px 16px;
     }
+
+    /* container */
     .container {
-      max-width: 950px;
-      margin: 40px auto;
+      width: 100%;
+      max-width: 960px;
       background: var(--white);
       border-radius: var(--radius);
       box-shadow: var(--shadow);
-      padding: 36px 40px;
-      position: relative;
       overflow: hidden;
+      position: relative;
     }
-    h1 {
-      text-align: left;
-      color: var(--primary);
-      margin-bottom: 6px;
-      font-size: 2.7rem;
-      letter-spacing: 1px;
-      font-weight: 700;
+
+    header {
+      background: linear-gradient(90deg, var(--primary) 0%, var(--accent) 100%);
+      padding: 32px 40px;
+      color: var(--white);
+    }
+
+    header h1 {
+      margin: 0 0 6px;
+      font-size: 2.4rem;
       line-height: 1.1;
     }
-    .subtitle {
-      color: #293241;
-      margin-bottom: 30px;
-      font-size: 1.15rem;
-      font-weight: 400;
-      letter-spacing: 0.2px;
+
+    header p {
+      margin: 0;
+      font-size: 1rem;
+      opacity: 0.9;
     }
-    section {
-      margin-bottom: 32px;
-      padding: 24px 0 0 0;
-      border-bottom: 1.5px solid #e0e7ff;
+
+    main {
+      padding: 36px 40px 60px;
     }
-    section:last-child {
-      border-bottom: none;
-    }
-    section h2 {
+
+    h2.section-title {
+      font-size: 1.25rem;
+      margin: 0 0 18px;
       color: var(--primary);
-      font-size: 1.15rem;
-      margin-bottom: 10px;
-      border-left: 5px solid var(--accent);
+      border-left: 6px solid var(--accent);
       padding-left: 12px;
+      letter-spacing: 0.4px;
       font-weight: 700;
-      letter-spacing: 0.5px;
     }
+
+    section + section {
+      margin-top: 40px;
+    }
+
     label {
       display: block;
-      margin-bottom: 8px;
-      font-weight: 500;
-      color: #22223b;
+      margin-bottom: 6px;
+      font-weight: 600;
     }
-    .help-text {
-      display: inline-block;
-      color: #888;
-      font-size: 0.93em;
-      margin-left: 8px;
-      cursor: pointer;
-      border-bottom: 1px dotted #888;
-    }
-    input, select, textarea, .dynamic-field {
+
+    input,
+    select,
+    textarea {
       width: 100%;
-      padding: 10px;
-      margin-bottom: 16px;
-      border: 1px solid #bfc0c0;
-      border-radius: 7px;
+      padding: 11px 12px;
+      border: 1px solid #c1c5c8;
+      border-radius: 8px;
       font-size: 1rem;
-      background: #f5f7fa;
-      transition: border 0.2s;
+      background: #f7f9fc;
+      transition: border 0.25s;
     }
-    input:focus, select:focus, textarea:focus {
-      border: 1.5px solid var(--primary);
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+      border-color: var(--primary);
       outline: none;
     }
-    .add-btn, .remove-btn {
-      background: var(--accent);
-      color: #fff;
-      border: none;
-      border-radius: 7px;
-      padding: 7px 18px;
-      font-size: 1rem;
-      font-weight: 600;
-      cursor: pointer;
-      margin-bottom: 10px;
-      margin-right: 8px;
-      transition: background 0.2s;
+
+    .help-text {
+      display: block;
+      margin: 4px 0 16px;
+      font-size: 0.85rem;
+      color: #666;
+      line-height: 1.4;
     }
-    .add-btn:hover, .remove-btn:hover {
-      background: #ff956b;
+
+    .dynamic-block + .dynamic-block {
+      margin-top: 24px;
     }
-    .remove-btn {
-      background: #bfc0c0;
-      color: #3d5a80;
-    }
-    .optional {
-      color: #888;
-      font-size: 0.95em;
-      font-weight: 400;
-      margin-left: 5px;
-    }
-    .submit-btn {
-      width: 100%;
-      padding: 16px;
-      background: linear-gradient(90deg, var(--primary) 60%, var(--accent) 100%);
-      color: #fff;
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 18px;
       border: none;
       border-radius: 8px;
-      font-size: 1.3rem;
-      font-weight: 700;
       cursor: pointer;
-      margin-top: 18px;
-      transition: background 0.3s;
-      letter-spacing: 1px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      transition: background 0.25s, box-shadow 0.25s;
     }
+
+    .btn-add {
+      background: var(--accent);
+      color: var(--white);
+    }
+
+    .btn-remove {
+      background: #e2e6ea;
+      color: #3d5a80;
+    }
+
+    .btn-add:hover {
+      background: #ff8a66;
+    }
+
+    .btn-remove:hover {
+      background: #cfd5da;
+    }
+
+    /* submit */
+    .submit-btn {
+      width: 100%;
+      margin-top: 40px;
+      padding: 16px;
+      font-size: 1.2rem;
+      font-weight: 700;
+      border: none;
+      border-radius: 10px;
+      background: linear-gradient(90deg, var(--primary) 0%, var(--accent) 100%);
+      color: var(--white);
+      cursor: pointer;
+      transition: filter 0.25s;
+    }
+
     .submit-btn:hover {
-      background: linear-gradient(90deg, #293241 60%, #3d5a80 100%);
+      filter: brightness(1.05);
     }
-    .result-block {
-      background: linear-gradient(120deg, #e0e7ff 60%, #f8fafc 100%);
+
+    /* results */
+    #resultBlock {
+      display: none;
+      background: linear-gradient(135deg, #edf2ff 0%, #ffffff 80%);
+      padding: 34px 32px;
       border-radius: var(--radius);
       box-shadow: var(--shadow);
-      margin-top: 40px;
-      padding: 32px 30px;
-      animation: fadeIn 1s;
+      margin: 40px 0 0;
+      animation: fadeIn 0.8s ease-in-out;
     }
-    .result-block h2 {
+
+    #resultBlock h3 {
+      margin-top: 0;
+      font-size: 1.6rem;
       color: var(--accent);
-      font-size: 2rem;
-      margin-bottom: 14px;
-      border: none;
-      padding-left: 0;
     }
-    .result-block ul {
+
+    #resultBlock ul {
       list-style: none;
       padding: 0;
-      margin: 0;
     }
-    .result-block li {
-      margin-bottom: 10px;
-      font-size: 1.1rem;
-      line-height: 1.6;
-    }
-    .tax-summary {
-      font-size: 1.1rem;
-      font-weight: 600;
-      color: var(--primary);
-      margin-top: 10px;
+
+    #resultBlock li {
       margin-bottom: 10px;
     }
-    .insight-block {
-      background: #fff9f1;
-      border-left: 7px solid var(--accent);
-      border-radius: 10px;
-      margin-top: 30px;
-      padding: 22px 18px;
-      box-shadow: 0 2px 8px rgba(238, 108, 77, 0.09);
-    }
-    .insight-block h3 {
-      color: var(--accent);
-      margin-top: 0;
-      margin-bottom: 10px;
-      font-size: 1.25rem;
-    }
-    .progress-bar-bg {
-      background: #e0e7ff;
-      border-radius: 10px;
-      height: 18px;
-      width: 100%;
-      margin-bottom: 8px;
-      overflow: hidden;
-    }
-    .progress-bar {
-      background: var(--primary);
-      height: 100%;
-      transition: width 0.7s;
-    }
+
     @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(40px);}
-      to { opacity: 1; transform: translateY(0);}
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
-    @media (max-width: 800px) {
-      .container {
-        padding: 18px 2vw;
+
+    /* responsive */
+    @media (max-width: 640px) {
+      header {
+        padding: 24px 22px;
       }
-      .result-block {
-        padding: 18px 2vw;
-      }
-      h1 {
-        font-size: 2rem;
+      main {
+        padding: 28px 22px 50px;
       }
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <h1>360° Financial Snapshot</h1>
-    <div class="subtitle">
-      <strong>Plan your future with clarity and confidence.</strong><br>
-      <span style="color:#ee6c4d;">All fields are optional—fill what matters to you. National averages are pre-filled for your convenience.</span>
-    </div>
-    <form id="financialForm" autocomplete="off">
-      <!-- Personal Details -->
-      <section>
-        <h2>Personal & Family Details</h2>
-        <label>Full Name <span class="help-text" title="Your name helps personalize your financial plan.">?</span></label>
-        <input type="text" name="name">
-        <label>Age <span class="help-text" title="Your age helps estimate retirement needs and investment horizon. National avg: 32">?</span></label>
-        <input type="number" name="age" min="18" value="32">
-        <label>Marital Status <span class="help-text" title="Marital status affects financial planning for dependents and goals.">?</span></label>
-        <select name="marital_status">
-          <option value="Single">Single</option>
-          <option value="Married">Married</option>
-        </select>
-        <label>Number of Dependents <span class="help-text" title="Number of people financially dependent on you. National avg: 1">?</span></label>
-        <select id="numDependents" name="num_dependents">
-          <option value="0">0</option>
-          <option value="1" selected>1</option>
-          <option value="2">2</option>
-          <option value="3">3</option>
-          <option value="4">4+</option>
-        </select>
-        <div id="dependentAges"></div>
-      </section>
-      <!-- Income -->
-      <section>
-        <h2>Income</h2>
-        <label>Monthly Income (₹) <span class="help-text" title="Your regular monthly income. National avg: ₹30,000">?</span></label>
-        <input type="number" name="monthly_income" min="0" value="30000">
-        <label>Other Income (₹) <span class="help-text" title="Any additional income such as rent, dividends, etc. National avg: ₹2,000">?</span></label>
-        <input type="number" name="other_income" min="0" value="2000">
-      </section>
-      <!-- Loans & Liabilities -->
-      <section>
-        <h2>Loans & Liabilities</h2>
-        <div id="liabilitiesList"></div>
-        <button type="button" class="add-btn" onclick="addLiability()">+ Add Loan/Liability</button>
-        <span class="help-text" title="Include all outstanding loans such as home, car, personal, or credit card. National avg: ₹1,00,000">?</span>
-      </section>
-      <!-- Assets -->
-      <section>
-        <h2>Assets</h2>
-        <div id="assetsList"></div>
-        <button type="button" class="add-btn" onclick="addAsset()">+ Add Asset</button>
-        <span class="help-text" title="Include all assets like savings, FD, real estate, gold, etc. National avg: ₹5,00,000">?</span>
-      </section>
-      <!-- Investments -->
-      <section>
-        <h2>Current Investments</h2>
-        <div id="investmentsList"></div>
-        <button type="button" class="add-btn" onclick="addInvestment()">+ Add Investment</button>
-        <span class="help-text" title="Include all current investments such as mutual funds, stocks, bonds, etc. National avg: ₹1,50,000">?</span>
-      </section>
-      <!-- Retirement Accounts -->
-      <section>
-        <h2>Retirement Accounts</h2>
-        <div id="retirementList"></div>
-        <button type="button" class="add-btn" onclick="addRetirement()">+ Add Retirement Account</button>
-        <span class="help-text" title="Include NPS, EPF, PPF, Superannuation, etc. National avg: ₹1,20,000">?</span>
-      </section>
-      <!-- Insurance -->
-      <section>
-        <h2>Insurance</h2>
-        <div id="insuranceList"></div>
-        <button type="button" class="add-btn" onclick="addInsurance()">+ Add Insurance</button>
-        <span class="help-text" title="Include all insurance: term, health, bike, car, home, etc. National avg: ₹10,00,000 (term), ₹5,00,000 (health)">?</span>
-      </section>
-      <!-- Financial Goals -->
-      <section>
-        <h2>Financial Goals</h2>
-        <label>Short-term Goals (1-3 years) <span class="help-text" title="Goals to achieve in the next 1-3 years. E.g., vacation, buying a gadget.">?</span></label>
-        <div id="shortGoals"></div>
-        <button type="button" class="add-btn" onclick="addGoal('short')">+ Add Short-term Goal</button>
-        <label>Medium-term Goals (3-7 years) <span class="help-text" title="Goals for the next 3-7 years. E.g., car, home down payment.">?</span></label>
-        <div id="mediumGoals"></div>
-        <button type="button" class="add-btn" onclick="addGoal('medium')">+ Add Medium-term Goal</button>
-        <label>Long-term Goals (7+ years) <span class="help-text" title="Goals for 7+ years ahead. E.g., retirement, child's education.">?</span></label>
-        <div id="longGoals"></div>
-        <button type="button" class="add-btn" onclick="addGoal('long')">+ Add Long-term Goal</button>
-      </section>
-      <!-- Post Retirement Lifestyle -->
-      <section>
-        <h2>Post-Retirement Lifestyle</h2>
-        <label>Expected Monthly Spending in Retirement (₹) <span class="help-text" title="Estimate your monthly expenses after retirement. National avg: ₹25,000">?</span></label>
-        <input type="number" name="retirement_spending" min="0" value="25000">
-        <label>Describe Your Desired Lifestyle <span class="help-text" title="Share your vision for retirement (travel, hobbies, etc.).">?</span></label>
-        <textarea name="retirement_lifestyle" rows="2"></textarea>
-      </section>
-      <!-- Tax Planning -->
-      <section>
-        <h2>Tax Planning</h2>
-        <label for="annualIncome">Annual Income (₹) <span class="help-text" title="Your total annual income for tax calculation. National avg: ₹3,60,000">?</span></label>
-        <input type="number" id="annualIncome" name="annual_income" min="0" value="360000">
-        <label for="taxRegime">Select Tax Regime
-          <span class="help-text" title="Old regime allows deductions; new regime has lower rates but no deductions.">?</span>
-        </label>
-        <select id="taxRegime" name="tax_regime">
-          <option value="">--Select--</option>
-          <option value="old">Old Tax Regime</option>
-          <option value="new">New Tax Regime</option>
-        </select>
-        <div id="taxResult" class="tax-summary"></div>
-      </section>
-      <!-- Other Considerations -->
-      <section>
-        <h2>Other Considerations</h2>
-        <div id="otherList"></div>
-        <button type="button" class="add-btn" onclick="addOther()">+ Add Consideration</button>
-        <span class="help-text" title="E.g., planning to relocate, start a business, major medical expenses, etc.">?</span>
-      </section>
-      <button class="submit-btn" type="button" onclick="showResult()">See My Financial Snapshot</button>
-    </form>
-    <div id="result" class="result-block" style="display:none;"></div>
+    <header>
+      <h1>360° Financial Snapshot</h1>
+      <p>All fields are optional — answer what matters and we’ll do the math!</p>
+    </header>
+
+    <main>
+      <form id="financeForm" novalidate>
+        <!-- Personal & Family -->
+        <section>
+          <h2 class="section-title">Personal & Family</h2>
+
+          <label for="fullName">Full Name</label>
+          <input id="fullName" name="fullName" type="text" />
+          <small class="help-text">Your name personalises your snapshot but is not mandatory.</small>
+
+          <label for="age">Current Age</label>
+          <input id="age" name="age" type="number" min="18" value="32" />
+          <small class="help-text">Helps calculate investment horizon and risk capacity (national average: 32).</small>
+
+          <label for="retAge">Target Retirement Age</label>
+          <input id="retAge" name="retAge" type="number" min="40" value="60" />
+          <small class="help-text">When do you hope to retire? Typical range: 55–65.</small>
+
+          <label for="marital">Marital Status</label>
+          <select id="marital" name="marital">
+            <option value="Single">Single</option>
+            <option value="Married">Married</option>
+          </select>
+          <small class="help-text">Marital status guides life‑cover and estate‑planning recommendations.</small>
+
+          <label for="dependents">Number of Dependents</label>
+          <select id="dependents" name="dependents">
+            <option value="0">0</option>
+            <option value="1" selected>1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4+</option>
+          </select>
+          <small class="help-text">People relying on your income (average household: 1 dependent).</small>
+
+          <div id="dependentAges"></div>
+        </section>
+
+        <!-- Income -->
+        <section>
+          <h2 class="section-title">Income</h2>
+
+          <label for="monthlyIncome">Monthly Income (₹)</label>
+          <input id="monthlyIncome" name="monthlyIncome" type="number" min="0" value="30000" />
+          <small class="help-text">Salary or business earnings before tax. Average urban salary: ₹30,000.</small>
+
+          <label for="otherIncome">Other Monthly Income (₹)</label>
+          <input id="otherIncome" name="otherIncome" type="number" min="0" value="2000" />
+          <small class="help-text">Rent, dividends, freelance gigs, etc.</small>
+        </section>
+
+        <!-- Dynamic Lists Templates -->
+        <template id="tpl-liability">
+          <div class="dynamic-block liability-block">
+            <label>Liability Type</label>
+            <input name="type" placeholder="e.g. Home Loan" />
+            <small class="help-text">Mortgage, car loan, personal loan, credit card debt.</small>
+
+            <label>Outstanding Amount (₹)</label>
+            <input name="amount" type="number" min="0" value="100000" />
+            <small class="help-text">Principal remaining (average household loan: ₹1,00,000).</small>
+
+            <label>Interest Rate (%)</label>
+            <input name="rate" type="number" min="0" step="0.01" value="9" />
+            <small class="help-text">Current annual rate (typical mortgages ~9%).</small>
+
+            <label>Monthly Payment (₹)</label>
+            <input name="emi" type="number" min="0" value="5000" />
+            <small class="help-text">Your regular EMI.</small>
+
+            <button class="btn btn-remove" type="button">Remove</button>
+          </div>
+        </template>
+
+        <template id="tpl-asset">
+          <div class="dynamic-block asset-block">
+            <label>Asset Class</label>
+            <select name="class">
+              <option value="Savings Account">Savings Account</option>
+              <option value="Fixed Deposit">Fixed Deposit</option>
+              <option value="Mutual Funds">Mutual Funds</option>
+              <option value="Stocks">Stocks</option>
+              <option value="Real Estate">Real Estate</option>
+              <option value="Gold">Gold</option>
+              <option value="Others">Others</option>
+            </select>
+            <small class="help-text">Choose the category that best fits the asset.</small>
+
+            <label>Current Value (₹)</label>
+            <input name="value" type="number" min="0" value="100000" />
+            <small class="help-text">Market value today (median household assets: ₹5,00,000).</small>
+
+            <button class="btn btn-remove" type="button">Remove</button>
+          </div>
+        </template>
+
+        <!-- Liabilities -->
+        <section>
+          <h2 class="section-title">Loans & Liabilities</h2>
+          <div id="liabilityList"></div>
+          <button class="btn btn-add" type="button" data-add="liability">+ Add Liability</button>
+        </section>
+
+        <!-- Assets -->
+        <section>
+          <h2 class="section-title">Assets</h2>
+          <div id="assetList"></div>
+          <button class="btn btn-add" type="button" data-add="asset">+ Add Asset</button>
+        </section>
+
+        <!-- Post-retirement expectations -->
+        <section>
+          <h2 class="section-title">Lifestyle After Retirement</h2>
+
+          <label for="retSpend">Expected Monthly Spend (₹)</label>
+          <input id="retSpend" name="retSpend" type="number" min="0" value="25000" />
+          <small class="help-text">Estimate living expenses in today’s rupees (average retired couple: ₹25,000).</small>
+
+          <label for="retLife">Describe Your Dream Lifestyle</label>
+          <textarea id="retLife" name="retLife" rows="3"></textarea>
+          <small class="help-text">Tell us about travel plans, hobbies, or second‑career ideas.</small>
+        </section>
+
+        <!-- Tax section -->
+        <section>
+          <h2 class="section-title">Tax Planning</h2>
+
+          <label for="annualIncome">Annual Income (₹)</label>
+          <input id="annualIncome" name="annualIncome" type="number" min="0" value="360000" />
+          <small class="help-text">Total taxable income for the year.</small>
+
+          <label for="taxRegime">Choose Tax Regime</label>
+          <select id="taxRegime" name="taxRegime">
+            <option value="">--Select--</option>
+            <option value="old">Old Regime (with deductions)</option>
+            <option value="new">New Regime (lower slab, no deductions)</option>
+          </select>
+          <small class="help-text">We’ll calculate estimated tax instantly.</small>
+
+          <p id="taxOutput" style="font-weight:600;margin:12px 0 0;color:var(--primary);"></p>
+        </section>
+
+        <button class="submit-btn" type="button" id="btnSnapshot">Generate My Snapshot</button>
+      </form>
+
+      <div id="resultBlock"></div>
+    </main>
   </div>
 
   <script>
-    // Dependents
-    document.getElementById('numDependents').addEventListener('change', function() {
-      var num = parseInt(this.value);
-      var div = document.getElementById('dependentAges');
-      div.innerHTML = '';
-      for (var i = 1; i <= num; i++) {
-        var label = document.createElement('label');
-        label.textContent = 'Age of Dependent ' + i;
-        var input = document.createElement('input');
-        input.type = 'number';
-        input.name = 'dependent_age_' + i;
-        input.min = '0';
-        input.max = '120';
-        input.className = 'dynamic-field';
-        input.value = "8"; // National avg for child dependent
-        div.appendChild(label);
-        div.appendChild(input);
+    // Utility helpers
+    const $ = (sel, ctx = document) => ctx.querySelector(sel);
+    const $$ = (sel, ctx = document) => Array.from(ctx.querySelectorAll(sel));
+
+    // Dependent ages generator
+    $("#dependents").addEventListener("change", (e) => {
+      const div = $("#dependentAges");
+      div.innerHTML = "";
+      const n = parseInt(e.target.value, 10);
+      for (let i = 1; i <= n; i++) {
+        const lbl = document.createElement("label");
+        lbl.textContent = `Age of Dependent ${i}`;
+        const inp = document.createElement("input");
+        inp.type = "number";
+        inp.min = "0";
+        inp.value = "8";
+        inp.name = `depAge${i}`;
+        const help = document.createElement("small");
+        help.className = "help-text";
+        help.textContent = "Typical child dependent age.";
+        div.append(lbl, inp, help);
       }
     });
-    document.getElementById('numDependents').dispatchEvent(new Event('change'));
+    $("#dependents").dispatchEvent(new Event("change"));
 
-    // Dynamic Add/Remove for Liabilities
-    function addLiability() {
-      var list = document.getElementById('liabilitiesList');
-      var idx = list.children.length + 1;
-      var div = document.createElement('div');
-      div.className = 'liability-item';
-      div.innerHTML = `
-        <label>Type <span class="help-text" title="E.g., Home Loan, Car Loan, Personal Loan, Credit Card">?</span></label>
-        <input type="text" name="liability_type_${idx}" placeholder="e.g. Home Loan">
-        <label>Amount (₹) <span class="help-text" title="Outstanding principal. National avg: ₹1,00,000">?</span></label>
-        <input type="number" name="liability_amount_${idx}" min="0" value="100000">
-        <label>Interest Rate (%) <span class="help-text" title="Current interest rate. National avg: 9%">?</span></label>
-        <input type="number" name="liability_rate_${idx}" min="0" step="0.01" value="9">
-        <label>Monthly Payment (₹) <span class="help-text" title="Your EMI or regular payment. National avg: ₹5,000">?</span></label>
-        <input type="number" name="liability_payment_${idx}" min="0" value="5000">
-        <button type="button" class="remove-btn" onclick="this.parentNode.remove()">Remove</button>
-      `;
-      list.appendChild(div);
+    // Dynamic list factory
+    function addBlock(listId, tplId) {
+      const list = $(listId);
+      const tpl = $(tplId).content.cloneNode(true);
+      list.appendChild(tpl);
     }
 
-    // Dynamic Add/Remove for Assets
-    function addAsset() {
-      var list = document.getElementById('assetsList');
-      var idx = list.children.length + 1;
-      var div = document.createElement('div');
-      div.className = 'asset-item';
-      div.innerHTML = `
-        <label>Asset Class <span class="help-text" title="Choose asset type.">?</span></label>
-        <select name="asset_class_${idx}">
-          <option value="Savings Account">Savings Account</option>
-          <option value="Fixed Deposit">Fixed Deposit</option>
-          <option value="Mutual Funds">Mutual Funds</option>
-          <option value="Stocks">Stocks</option>
-          <option value="Real Estate">Real Estate</option>
-          <option value="Gold">Gold</option>
-          <option value="Others">Others</option>
-        </select>
-        <label>Value (₹) <span class="help-text" title="Current value. National avg: ₹1,00,000">?</span></label>
-        <input type="number" name="asset_value_${idx}" min="0" value="100000">
-        <button type="button" class="remove-btn" onclick="this.parentNode.remove()">Remove</button>
-      `;
-      list.appendChild(div);
-    }
+    // Initial items
+    addBlock("#liabilityList", "#tpl-liability");
+    addBlock("#assetList", "#tpl-asset");
 
-    // Dynamic Add/Remove for Investments
-    function addInvestment() {
-      var list = document.getElementById('investmentsList');
-      var idx = list.children.length + 1;
-      var div = document.createElement('div');
-      div.className = 'investment-item';
-      div.innerHTML = `
-        <label>Investment Type <span class="help-text" title="Choose investment type.">?</span></label>
-        <select name="investment_type_${idx}">
-          <option value="Mutual Funds">Mutual Funds</option>
-          <option value="Stocks">Stocks</option>
-          <option value="Bonds">Bonds</option>
-          <option value="ULIP">ULIP</option>
-          <option value="Others">Others</option>
-        </select>
-        <label>Value (₹) <span class="help-text" title="Current value. National avg: ₹50,000">?</span></label>
-        <input type="number" name="investment_value_${idx}" min="0" value="50000">
-        <button type="button" class="remove-btn" onclick="this.parentNode.remove()">Remove</button>
-      `;
-      list.appendChild(div);
-    }
+    // Delegated listeners for add / remove
+    document.addEventListener("click", (e) => {
+      const addType = e.target?.dataset?.add;
+      if (addType) {
+        e.preventDefault();
+        if (addType === "liability") addBlock("#liabilityList", "#tpl-liability");
+        if (addType === "asset") addBlock("#assetList", "#tpl-asset");
+      }
+      if (e.target.matches(".btn-remove")) {
+        e.preventDefault();
+        e.target.closest(".dynamic-block").remove();
+      }
+    });
 
-    // Dynamic Add/Remove for Retirement Accounts
-    function addRetirement() {
-      var list = document.getElementById('retirementList');
-      var idx = list.children.length + 1;
-      var div = document.createElement('div');
-      div.className = 'retirement-item';
-      div.innerHTML = `
-        <label>Account Type <span class="help-text" title="NPS, EPF, PPF, Superannuation, etc.">?</span></label>
-        <select name="retirement_type_${idx}">
-          <option value="NPS">NPS</option>
-          <option value="EPF">EPF</option>
-          <option value="PPF">PPF</option>
-          <option value="Superannuation">Superannuation</option>
-          <option value="Others">Others</option>
-        </select>
-        <label>Value (₹) <span class="help-text" title="Current value. National avg: ₹40,000">?</span></label>
-        <input type="number" name="retirement_value_${idx}" min="0" value="40000">
-        <button type="button" class="remove-btn" onclick="this.parentNode.remove()">Remove</button>
-      `;
-      list.appendChild(div);
+    // Tax calculation
+    const oldTax = (inc) => {
+      let t = 0;
+      if (inc <= 250000) return 0;
+      if (inc <= 500000) t = (inc - 250000) * 0.05;
+      else if (inc <= 1000000) t = 12500 + (inc - 500000) * 0.2;
+      else t = 112500 + (inc - 1000000) * 0.3;
+      return inc <= 500000 ? 0 : Math.round(t * 1.04);
+    };
+    const newTax = (inc) => {
+      let t = 0;
+      if (inc <= 300000) return 0;
+      if (inc <= 600000) t = (inc - 300000) * 0.05;
+      else if (inc <= 900000) t = 15000 + (inc - 600000) * 0.1;
+      else if (inc <= 1200000) t = 45000 + (inc - 900000) * 0.15;
+      else if (inc <= 1500000) t = 90000 + (inc - 1200000) * 0.2;
+      else t = 150000 + (inc - 1500000) * 0.3;
+      return inc <= 700000 ? 0 : Math.round(t * 1.04);
+    };
+    function updateTax() {
+      const inc = parseInt($("#annualIncome").value, 10) || 0;
+      const regime = $("#taxRegime").value;
+      if (!inc || !regime) return ($("#taxOutput").textContent = "");
+      const tax = regime === "old" ? oldTax(inc) : newTax(inc);
+      $("#taxOutput").textContent = `Estimated Tax: ₹${tax.toLocaleString("en-IN")}`;
     }
+    ["#annualIncome", "#taxRegime"].forEach((sel) => $(sel).addEventListener("input", updateTax));
+    updateTax();
 
-    // Dynamic Add/Remove for Insurance
-    function addInsurance() {
-      var list = document.getElementById('insuranceList');
-      var idx = list.children.length + 1;
-      var div = document.createElement('div');
-      div.className = 'insurance-item';
-      div.innerHTML = `
-        <label>Insurance Type <span class="help-text" title="Term, Health (Corporate/Personal), Bike, Car, Home, Critical Illness, Others">?</span></label>
-        <select name="insurance_type_${idx}">
-          <option value="Term Plan">Term Plan</option>
-          <option value="Health - Corporate">Health - Corporate</option>
-          <option value="Health - Personal">Health - Personal</option>
-          <option value="Bike Insurance">Bike Insurance</option>
-          <option value="Car Insurance">Car Insurance</option>
-          <option value="Home Insurance">Home Insurance</option>
-          <option value="Critical Illness">Critical Illness</option>
-          <option value="Others">Others</option>
-        </select>
-        <label>Policy Name/ID <span class="help-text" title="Enter policy name or identifier.">?</span></label>
-        <input type="text" name="insurance_name_${idx}">
-        <label>Sum Assured / Coverage (₹) <span class="help-text" title="Coverage amount. National avg: ₹5,00,000 for health, ₹10,00,000 for term">?</span></label>
-        <input type="number" name="insurance_value_${idx}" min="0" value="500000">
-        <button type="button" class="remove-btn" onclick="this.parentNode.remove()">Remove</button>
-      `;
-      list.appendChild(div);
-    }
+    // Snapshot generator
+    $("#btnSnapshot").addEventListener("click", () => {
+      const form = $("#financeForm");
+      const res = $("#resultBlock");
 
-    // Dynamic Add/Remove for Financial Goals
-    function addGoal(type) {
-      var map = {
-        'short': 'shortGoals',
-        'medium': 'mediumGoals',
-        'long': 'longGoals'
+      // Simple aggregation
+      const name = form.fullName.value?.trim();
+      const age = parseInt(form.age.value, 10);
+      const retAge = parseInt(form.retAge.value, 10);
+
+      const income = parseInt(form.monthlyIncome.value || 0, 10) + parseInt(form.otherIncome.value || 0, 10);
+      const yearlyIncome = income * 12;
+
+      const liabSum = $$(".liability-block input[name='amount']").reduce((s, n) => s + (parseInt(n.value || 0, 10)), 0);
+      const assetSum = $$(".asset-block input[name='value']").reduce((s, n) => s + (parseInt(n.value || 0, 10)), 0);
+
+      // Build summary list
+      const ul = document.createElement("ul");
+      const addLi = (txt) => {
+        const li = document.createElement("li");
+        li.textContent = txt;
+        ul.appendChild(li);
       };
-      var list = document.getElementById(map[type]);
-      var idx = list.children.length + 1;
-      var div = document.createElement('div');
-      div.className = 'goal-item';
-      div.innerHTML = `
-        <label>Goal Name <span class="help-text" title="Name your goal for a personal touch.">?</span></label>
-        <input type="text" name="${type}_goal_name_${idx}" placeholder="e.g. Buy Car, Child's Education">
-        <label>Amount Needed (₹) <span class="help-text" title="How much you need for this goal. National avg: ₹2,00,000 (short), ₹5,00,000 (medium), ₹20,00,000 (long)">?</span></label>
-        <input type="number" name="${type}_goal_amount_${idx}" min="0" value="${type==='short'?'200000':type==='medium'?'500000':'2000000'}">
-        <button type="button" class="remove-btn" onclick="this.parentNode.remove()">Remove</button>
-      `;
-      list.appendChild(div);
-    }
+      if (name) addLi(`👋 Hi ${name}!`);
+      if (age) addLi(`You are ${age} years old and plan to retire at ${retAge}. That gives you ${retAge - age} years to grow wealth.`);
+      addLi(`🪙 Net monthly income: ₹${income.toLocaleString("en-IN")}`);
+      addLi(`💼 Total assets: ₹${assetSum.toLocaleString("en-IN")}`);
+      addLi(`🧾 Total liabilities: ₹${liabSum.toLocaleString("en-IN")}`);
+      addLi(assetSum > liabSum ? "👍 Assets exceed liabilities — great!" : "⚠️ Liabilities exceed assets. Consider reducing debt.");
 
-    // Dynamic Add/Remove for Other Considerations
-    function addOther() {
-      var list = document.getElementById('otherList');
-      var idx = list.children.length + 1;
-      var div = document.createElement('div');
-      div.className = 'other-item';
-      div.innerHTML = `
-        <label>Consideration <span class="help-text" title="E.g., planning to relocate, start a business, major medical expenses, etc.">?</span></label>
-        <input type="text" name="other_consideration_${idx}" placeholder="e.g. Planning to relocate, Start a business">
-        <button type="button" class="remove-btn" onclick="this.parentNode.remove()">Remove</button>
-      `;
-      list.appendChild(div);
-    }
-
-    // Tax Calculation
-    function calculateOldTax(income) {
-      let tax = 0;
-      if (income <= 250000) return 0;
-      if (income <= 500000) tax = (income - 250000) * 0.05;
-      else if (income <= 1000000) tax = 12500 + (income - 500000) * 0.20;
-      else tax = 112500 + (income - 1000000) * 0.30;
-      if (income <= 500000) tax = 0;
-      return Math.round(tax * 1.04);
-    }
-    function calculateNewTax(income) {
-      let tax = 0;
-      if (income <= 300000) return 0;
-      if (income <= 600000) tax = (income - 300000) * 0.05;
-      else if (income <= 900000) tax = 15000 + (income - 600000) * 0.10;
-      else if (income <= 1200000) tax = 45000 + (income - 900000) * 0.15;
-      else if (income <= 1500000) tax = 90000 + (income - 1200000) * 0.20;
-      else tax = 150000 + (income - 1500000) * 0.30;
-      if (income <= 700000) tax = 0;
-      return Math.round(tax * 1.04);
-    }
-    document.getElementById('annualIncome').addEventListener('input', showTax);
-    document.getElementById('taxRegime').addEventListener('change', showTax);
-    function showTax() {
-      const income = parseInt(document.getElementById('annualIncome').value, 10);
-      const regime = document.getElementById('taxRegime').value;
-      let result = '';
-      if (income && regime) {
-        let tax = regime === 'old' ? calculateOldTax(income) : calculateNewTax(income);
-        result = `Estimated Tax Payable: ₹${tax.toLocaleString('en-IN')}`;
-      }
-      document.getElementById('taxResult').textContent = result;
-    }
-    showTax();
-
-    // Result Display with Insights
-    function showResult() {
-      const form = document.getElementById('financialForm');
-      const result = document.getElementById('result');
-      let html = `<h2>Your Financial Snapshot</h2><ul>`;
-      // Personal
-      const name = form.name.value ? `<li><strong>Name:</strong> ${form.name.value}</li>` : '';
-      const age = form.age.value ? `<li><strong>Age:</strong> ${form.age.value}</li>` : '';
-      const marital = form.marital_status.value ? `<li><strong>Marital Status:</strong> ${form.marital_status.value}</li>` : '';
-      let dependents = '';
-      if (form.num_dependents.value && form.num_dependents.value !== "0") {
-        dependents = `<li><strong>Dependents:</strong> ${form.num_dependents.value}`;
-        for (let i = 1; i <= form.num_dependents.value; i++) {
-          const ageField = form[`dependent_age_${i}`];
-          if (ageField && ageField.value) dependents += ` (Age ${ageField.value})`;
-        }
-        dependents += `</li>`;
-      }
-      html += name + age + marital + dependents;
-
-      // Income
-      if (form.monthly_income.value) html += `<li><strong>Monthly Income:</strong> ₹${parseInt(form.monthly_income.value).toLocaleString('en-IN')}</li>`;
-      if (form.other_income.value) html += `<li><strong>Other Income:</strong> ₹${parseInt(form.other_income.value).toLocaleString('en-IN')}</li>`;
-
-      // Liabilities
-      let totalLiabilities = 0;
-      const liabilities = document.querySelectorAll('.liability-item');
-      if (liabilities.length) {
-        html += `<li><strong>Loans & Liabilities:</strong><ul>`;
-        liabilities.forEach(liab => {
-          const type = liab.querySelector('input[name^="liability_type_"]').value;
-          const amt = liab.querySelector('input[name^="liability_amount_"]').value;
-          totalLiabilities += Number(amt || 0);
-          const rate = liab.querySelector('input[name^="liability_rate_"]').value;
-          const pay = liab.querySelector('input[name^="liability_payment_"]').value;
-          html += `<li>${type ? type : 'Loan'}: ₹${amt ? amt : 0} @ ${rate ? rate : 0}% (Monthly: ₹${pay ? pay : 0})</li>`;
-        });
-        html += `</ul></li>`;
-      }
-
-      // Assets
-      let totalAssets = 0;
-      let assetBreakdown = {};
-      const assets = document.querySelectorAll('.asset-item');
-      if (assets.length) {
-        html += `<li><strong>Assets:</strong><ul>`;
-        assets.forEach(ast => {
-          const type = ast.querySelector('select[name^="asset_class_"]').value;
-          const val = ast.querySelector('input[name^="asset_value_"]').value;
-          totalAssets += Number(val || 0);
-          assetBreakdown[type] = (assetBreakdown[type] || 0) + Number(val || 0);
-          html += `<li>${type}: ₹${val ? val : 0}</li>`;
-        });
-        html += `</ul></li>`;
-      }
-
-      // Investments
-      let totalInvestments = 0;
-      let investmentBreakdown = {};
-      const investments = document.querySelectorAll('.investment-item');
-      if (investments.length) {
-        html += `<li><strong>Current Investments:</strong><ul>`;
-        investments.forEach(inv => {
-          const type = inv.querySelector('select[name^="investment_type_"]').value;
-          const val = inv.querySelector('input[name^="investment_value_"]').value;
-          totalInvestments += Number(val || 0);
-          investmentBreakdown[type] = (investmentBreakdown[type] || 0) + Number(val || 0);
-          html += `<li>${type}: ₹${val ? val : 0}</li>`;
-        });
-        html += `</ul></li>`;
-      }
-
-      // Retirement Accounts
-      let totalRetirement = 0;
-      const retirements = document.querySelectorAll('.retirement-item');
-      if (retirements.length) {
-        html += `<li><strong>Retirement Accounts:</strong><ul>`;
-        retirements.forEach(ret => {
-          const type = ret.querySelector('select[name^="retirement_type_"]').value;
-          const val = ret.querySelector('input[name^="retirement_value_"]').value;
-          totalRetirement += Number(val || 0);
-          html += `<li>${type}: ₹${val ? val : 0}</li>`;
-        });
-        html += `</ul></li>`;
-      }
-
-      // Insurance
-      let hasTerm = false, hasHealth = false, hasWill = false;
-      let insuranceTypes = [];
-      const insurances = document.querySelectorAll('.insurance-item');
-      if (insurances.length) {
-        html += `<li><strong>Insurance:</strong><ul>`;
-        insurances.forEach(ins => {
-          const type = ins.querySelector('select[name^="insurance_type_"]').value;
-          insuranceTypes.push(type);
-          if (type === "Term Plan") hasTerm = true;
-          if (type === "Health - Corporate" || type === "Health - Personal") hasHealth = true;
-          const name = ins.querySelector('input[name^="insurance_name_"]').value;
-          const val = ins.querySelector('input[name^="insurance_value_"]').value;
-          html += `<li>${type} ${name ? '(' + name + ')' : ''}: ₹${val ? val : 0}</li>`;
-        });
-        html += `</ul></li>`;
-      }
-
-      // Goals & Goal Insights
-      let goalHtml = '';
-      let insights = '';
-      function getGoals(sel, label, color) {
-        const nodes = document.querySelectorAll(`#${sel} .goal-item`);
-        if (nodes.length) {
-          goalHtml += `<li><strong>${label}:</strong><ul>`;
-          nodes.forEach(goal => {
-            const name = goal.querySelector('input[name$="goal_name_' + (goal.parentNode.children.length) + '"]') || goal.querySelector('input[name$="goal_name_' + (Array.prototype.indexOf.call(goal.parentNode.children, goal) + 1) + '"]');
-            const amt = goal.querySelector('input[name$="goal_amount_' + (goal.parentNode.children.length) + '"]') || goal.querySelector('input[name$="goal_amount_' + (Array.prototype.indexOf.call(goal.parentNode.children, goal) + 1) + '"]');
-            let saved = totalInvestments / nodes.length; // Simple split for demo
-            let needed = amt && amt.value ? amt.value : 0;
-            let percent = Math.min(100, Math.round((saved / needed) * 100));
-            goalHtml += `<li>${name && name.value ? name.value : 'Goal'}: ₹${amt && amt.value ? amt.value : 0}
-              <div class="progress-bar-bg"><div class="progress-bar" style="width:${percent}%;background:${color};"></div></div>
-              <span style="font-size:0.97em;">Saved: ₹${Math.round(saved)} (${percent}%)</span>
-              ${percent<100?`<span style="color:#ee6c4d; font-size:0.97em;"> | Need to save: ₹${Math.round(needed-saved)} (${Math.round((needed-saved)/12)} per month for 1 year)</span>`:""}
-            </li>`;
-          });
-          goalHtml += `</ul></li>`;
-        }
-      }
-      getGoals('shortGoals', 'Short-term Goals', '#3d5a80');
-      getGoals('mediumGoals', 'Medium-term Goals', '#ee6c4d');
-      getGoals('longGoals', 'Long-term Goals', '#293241');
-      html += goalHtml;
-
-      // Retirement Lifestyle
-      if (form.retirement_spending.value) html += `<li><strong>Expected Retirement Spending:</strong> ₹${parseInt(form.retirement_spending.value).toLocaleString('en-IN')}</li>`;
-      if (form.retirement_lifestyle.value) html += `<li><strong>Retirement Lifestyle:</strong> ${form.retirement_lifestyle.value}</li>`;
-
-      // Tax
-      const income = parseInt(form.annual_income.value, 10);
-      const regime = form.tax_regime.value;
-      if (income && regime) {
-        let tax = regime === 'old' ? calculateOldTax(income) : calculateNewTax(income);
-        html += `<li><strong>Estimated Tax Payable:</strong> ₹${tax.toLocaleString('en-IN')}</li>`;
-      }
-
-      // Other Considerations
-      const others = document.querySelectorAll('.other-item');
-      if (others.length) {
-        html += `<li><strong>Other Considerations:</strong><ul>`;
-        others.forEach(oth => {
-          const val = oth.querySelector('input[name^="other_consideration_"]').value;
-          html += `<li>${val}</li>`;
-        });
-        html += `</ul></li>`;
-      }
-      html += `</ul>`;
-
-      // Insights & Recommendations
-      insights += `<div class="insight-block"><h3>Insights & Recommendations</h3><ul>`;
-
-      // Investment Diversification
-      if (Object.keys(investmentBreakdown).length > 1) {
-        insights += `<li>👍 Your investments are diversified across multiple asset classes.</li>`;
-      } else if (Object.keys(investmentBreakdown).length === 1) {
-        insights += `<li>⚠️ Consider diversifying your investments to reduce risk and improve returns.</li>`;
-      }
-
-      // Asset vs. Liability
-      if (totalAssets > totalLiabilities) {
-        insights += `<li>✅ Your assets exceed your liabilities. Keep building your net worth!</li>`;
-      } else if (totalAssets && totalLiabilities && totalAssets <= totalLiabilities) {
-        insights += `<li>⚠️ Your liabilities are higher than your assets. Consider reducing debt or increasing savings.</li>`;
-      }
-
-      // Goal Planning
-      if (goalHtml) {
-        insights += `<li>🎯 For each goal, try to save regularly through SIPs or recurring deposits to bridge the gap.</li>`;
-      }
-
-      // Will/Estate Planning
-      if (!hasWill) {
-        insights += `<li>📝 <b>No will detected.</b> It's highly recommended to create a will to ensure your assets are distributed as per your wishes and to avoid legal complications for your loved ones.</li>`;
-      }
-
-      // Insurance
-      if (!hasTerm) {
-        insights += `<li>🔒 <b>No term insurance detected.</b> Adequate term insurance is essential to protect your family’s financial future. Consider getting a term plan covering at least 10-15x your annual income.</li>`;
-      }
-      if (!hasHealth) {
-        insights += `<li>🏥 <b>No health insurance detected.</b> Health insurance protects you from medical emergencies and rising healthcare costs. Consider a personal health policy even if you have corporate cover.</li>`;
-      }
-
-      // General Insurance
-      if (!insuranceTypes.includes("Bike Insurance") || !insuranceTypes.includes("Car Insurance") || !insuranceTypes.includes("Home Insurance")) {
-        insights += `<li>🚗🏠 <b>General Insurance:</b> Don't forget to insure your bike, car, and home to protect against unforeseen losses and damages.</li>`;
-      }
-
-      insights += `</ul></div>`;
-
-      html += insights;
-      html += `<div style="margin-top:20px; font-size:1.05rem; color:#3d5a80;">
-        <em>This is your personalized financial snapshot. For deeper insights and recommendations, consult a certified financial planner.</em>
-      </div>
-      `;
-      result.innerHTML = html;
-      result.style.display = 'block';
-      window.scrollTo({top: result.offsetTop - 40, behavior: 'smooth'});
-    }
-
-    // Initialize with one asset, investment, retirement, insurance, goal, and other for better UX
-    addAsset();
-    addInvestment();
-    addRetirement();
-    addInsurance();
-    addGoal('short');
-    addGoal('medium');
-    addGoal('long');
-    addOther();
-    addLiability();
+      // Show
+      res.innerHTML = "";
+      const h3 = document.createElement("h3");
+      h3.textContent = "Your Snapshot";
+      res.append(h3, ul);
+      res.style.display = "block";
+      res.scrollIntoView({ behavior: "smooth" });
+    });
   </script>
 </body>
 </html>
